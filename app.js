@@ -20,6 +20,11 @@ const express = require('express')
 const app = express()
 // definisco all'interno di una costante la porta da utilizzare
 const port = 3000
+// importiamo il router 
+const postsRouter = require('./routers/posts');
+
+
+
 // app = webserver, .get = il metodo http su cui voglio restituire la risposta
 // il primo parametre "/" = la rotta (url) sui cui rimango in ascoloto di eventuali richieste 
 // il secondo parametre e una funzione (req, res) => {} - la funzione che gestirà la richiesta da parte del cliente e restiuirà la risposta 
@@ -29,6 +34,9 @@ app.get('/', (req, res) => {
 
 // chiede a express di abilitare la possibilita di leggere file statici (qui facciamo perché dobbiamo mettere le immagini) (slides 30-31 of powerpoint) - e un middleware 
 app.use(express.static('public'));
+
+// tramite la funzione use indichiamo a express che esistono nuove rotte (slide 26 express-routing)
+app.use("/posts", postsRouter);
 
 // una rotta /bacheca che restituisca un oggetto json con la lista dei post (una lista di almeno 5 post, per ognuno indicare titolo, contenuto, immagine e tags (tags è un array di stringhe))
 app.get('/bacheca', (req, res) => {
@@ -64,10 +72,10 @@ app.get('/bacheca', (req, res) => {
             tags: ["dessert"],
         },
     ])
-})
+});
 
 
 // mette in ascolto sulla porta definita in precedenza il web server (la nostra app Back End)
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
-})
+});
